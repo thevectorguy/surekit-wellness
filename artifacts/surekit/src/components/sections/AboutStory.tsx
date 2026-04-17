@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { LayoutGroup, motion, useInView } from "framer-motion";
 import {
   ArrowRight,
   BookOpen,
@@ -129,31 +130,44 @@ const revealProps = {
 type ImageMomentProps = {
   src: string;
   alt: string;
-  badge: string;
   aspect: string;
+  layoutId: string;
+  frameClassName?: string;
+  imageClassName?: string;
+  outerClassName?: string;
 };
 
-function ImageMoment({ src, alt, badge, aspect }: ImageMomentProps) {
+function ImageMoment({
+  src,
+  alt,
+  aspect,
+  layoutId,
+  frameClassName,
+  imageClassName,
+  outerClassName,
+}: ImageMomentProps) {
   return (
     <motion.figure
-      {...revealProps}
-      transition={{ duration: 0.8, ease: "easeOut" }}
+      layoutId={layoutId}
+      transition={{ type: "spring", stiffness: 240, damping: 28 }}
       whileHover={{ y: -6 }}
-      className="group relative"
+      className={`group relative ${outerClassName ?? ""}`}
     >
       <div className="absolute -inset-5 rounded-[2rem] bg-primary/10 blur-3xl transition-opacity duration-500 group-hover:opacity-80" />
-      <div className="relative overflow-hidden rounded-[2rem] border border-white/60 bg-white/70 shadow-[0_24px_80px_rgba(36,52,49,0.12)] backdrop-blur-sm">
+      <div
+        className={`relative overflow-hidden rounded-[2rem] border border-white/60 bg-white/70 shadow-[0_24px_80px_rgba(36,52,49,0.12)] backdrop-blur-sm ${
+          frameClassName ?? ""
+        }`}
+      >
         <div className={`${aspect} overflow-hidden`}>
           <img
             src={`${import.meta.env.BASE_URL}${src}`}
             alt={alt}
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+            className={`h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03] ${
+              imageClassName ?? ""
+            }`}
           />
         </div>
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-foreground/10 via-transparent to-transparent" />
-        <figcaption className="absolute left-5 top-5 rounded-full bg-background/80 px-4 py-2 text-[0.65rem] font-medium uppercase tracking-[0.32em] text-foreground/70 backdrop-blur-md">
-          {badge}
-        </figcaption>
       </div>
     </motion.figure>
   );
@@ -186,6 +200,15 @@ function IntegrationCircle() {
 
 export function AboutStory() {
   const imageBase = `${import.meta.env.BASE_URL}images/`;
+  const foundationRef = useRef<HTMLDivElement | null>(null);
+  const foundationInView = useInView(foundationRef, {
+    amount: 0.38,
+    margin: "0px 0px -30% 0px",
+  });
+  const portraitLayoutId = "founder-portrait";
+  const foundationSection = storySections[0];
+  const turningPointSection = storySections[1];
+  const integrationSection = storySections[2];
 
   return (
     <div className="bg-background">
@@ -205,7 +228,7 @@ export function AboutStory() {
         <div className="absolute bottom-8 right-0 -z-10 h-80 w-80 rounded-full bg-secondary/20 blur-3xl" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 lg:pb-28">
-          <div className="grid items-center gap-14">
+          <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
             <motion.div
               initial={{ opacity: 0, x: -32 }}
               animate={{ opacity: 1, x: 0 }}
@@ -229,35 +252,25 @@ export function AboutStory() {
                 people move from external success into alignment, clarity, and
                 inner balance.
               </p>
+            </motion.div>
 
-              {/* <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-                <a
-                  {...bookingLinkProps}
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-4 text-base font-medium text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/20"
-                >
-                  Begin your Journey
-                  <ArrowRight className="h-4 w-4" />
-                </a>
-                <Link
-                  href="/services"
-                  className="inline-flex items-center justify-center rounded-full border border-foreground/10 bg-white/60 px-7 py-4 text-base font-medium text-foreground transition-all duration-300 hover:border-primary/20 hover:bg-white/80"
-                >
-                  Explore the Modalities
-                </Link>
-              </div>
-
-              <div className="mt-12 grid gap-6 border-t border-foreground/10 pt-8 sm:grid-cols-3">
-                {heroHighlights.map((item) => (
-                  <div key={item.label}>
-                    <p className="font-serif text-3xl text-foreground">
-                      {item.value}
-                    </p>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      {item.label}
-                    </p>
-                  </div>
-                ))}
-              </div> */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              className="relative flex justify-start lg:justify-end"
+            >
+              {!foundationInView ? (
+                <div className="w-full max-w-[25rem] lg:max-w-[29rem]">
+                  <ImageMoment
+                    layoutId={portraitLayoutId}
+                    src={storySections[0].image ?? "images/founder-placeholder-2.svg"}
+                    alt={storySections[0].alt ?? storySections[0].title}
+                    aspect="aspect-[5/6]"
+                    imageClassName="object-[center_18%]"
+                  />
+                </div>
+              ) : null}
             </motion.div>
           </div>
         </div>
@@ -301,78 +314,88 @@ export function AboutStory() {
               </div>
           </motion.div>
 
-          <div className="mt-16 space-y-20 lg:space-y-28">
-            {storySections.map((section, index) => {
-              const imageOnLeft = index % 2 === 0;
-              const isCentered = section.layout === "centered";
+          <div ref={foundationRef} className="mt-16 space-y-20 lg:space-y-28">
+            <div className="grid gap-8 lg:grid-cols-2 lg:gap-10">
+              <motion.div
+                {...revealProps}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="overflow-hidden rounded-[2rem] border border-foreground/10 bg-white/55 p-6 shadow-[0_22px_70px_rgba(36,52,49,0.06)] backdrop-blur-sm sm:p-8 lg:p-10"
+              >
+                <div className="grid gap-8 xl:grid-cols-[0.92fr_1.08fr] xl:items-center">
+                  <div className="order-2 xl:order-1">
+                    <p className="text-sm font-medium uppercase tracking-[0.32em] text-primary">
+                      {foundationSection.eyebrow}
+                    </p>
+                    <h3 className="mt-4 text-3xl sm:text-4xl">
+                      {foundationSection.title}
+                    </h3>
+                    <div className="mt-6 space-y-5 text-lg leading-relaxed text-muted-foreground">
+                      {foundationSection.body.map((paragraph) => (
+                        <p key={paragraph}>{paragraph}</p>
+                      ))}
+                    </div>
+                  </div>
 
-              return (
-                <div
-                  key={section.title}
-                  className={`grid items-center gap-10 ${
-                    isCentered ? "justify-items-center lg:grid-cols-1" : "lg:grid-cols-12 lg:gap-14"
-                  }`}
-                >
-                  {isCentered ? (
-                    <>
-                      {section.centerVisual === "circle" ? (
-                        <div className="lg:col-span-12">
-                          <IntegrationCircle />
-                        </div>
-                      ) : null}
-                      <motion.div
-                        {...revealProps}
-                        transition={{ duration: 0.8, delay: 0.08, ease: "easeOut" }}
-                        className="mx-auto max-w-3xl text-center lg:col-span-12"
-                      >
-                        <p className="text-sm font-medium uppercase tracking-[0.32em] text-primary">
-                          {section.eyebrow}
-                        </p>
-                        <h3 className="mt-4 text-3xl sm:text-4xl">{section.title}</h3>
-                        <div className="mt-6 space-y-5 text-lg leading-relaxed text-muted-foreground">
-                          {section.body.map((paragraph) => (
-                            <p key={paragraph}>{paragraph}</p>
-                          ))}
-                        </div>
-                      </motion.div>
-                    </>
-                  ) : (
-                    <div
-                      className={`lg:col-span-6 ${
-                        imageOnLeft ? "lg:order-1" : "lg:order-2"
-                      }`}
-                    >
-	                      <ImageMoment
-	                        src={section.image ?? "images/founder-placeholder-2.svg"}
-	                        alt={section.alt ?? section.title}
-	                        badge={section.badge ?? "Guiding Presence"}
-	                        aspect={section.aspect ?? "aspect-[4/5]"}
-	                      />
-	                    </div>
-	                  )}
-
-                  {!isCentered ? (
-                    <motion.div
-                      {...revealProps}
-                      transition={{ duration: 0.8, delay: 0.08, ease: "easeOut" }}
-                      className={`lg:col-span-5 ${
-                        imageOnLeft ? "lg:col-start-8" : "lg:col-start-1"
-                      } ${imageOnLeft ? "lg:order-2" : "lg:order-1"}`}
-                    >
-                      <p className="text-sm font-medium uppercase tracking-[0.32em] text-primary">
-                        {section.eyebrow}
-                      </p>
-                      <h3 className="mt-4 text-3xl sm:text-4xl">{section.title}</h3>
-                      <div className="mt-6 space-y-5 text-lg leading-relaxed text-muted-foreground">
-                        {section.body.map((paragraph) => (
-                          <p key={paragraph}>{paragraph}</p>
-                        ))}
-                      </div>
-                    </motion.div>
-                  ) : null}
+                  <div className="order-1 xl:order-2">
+                    {foundationInView ? (
+                      <ImageMoment
+                        layoutId={portraitLayoutId}
+                        src={foundationSection.image ?? "images/founder-placeholder-2.svg"}
+                        alt={foundationSection.alt ?? foundationSection.title}
+                        aspect={foundationSection.aspect ?? "aspect-[4/5]"}
+                        outerClassName="w-full max-w-[28rem] xl:ml-auto"
+                        imageClassName="object-center"
+                      />
+                    ) : null}
+                  </div>
                 </div>
-              );
-            })}
+              </motion.div>
+
+              <motion.div
+                {...revealProps}
+                transition={{ duration: 0.8, delay: 0.08, ease: "easeOut" }}
+                className="flex h-full flex-col justify-center rounded-[2rem] border border-primary/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.78),rgba(247,242,251,0.86))] p-6 shadow-[0_22px_70px_rgba(36,52,49,0.06)] sm:p-8 lg:p-10"
+              >
+                <p className="text-sm font-medium uppercase tracking-[0.32em] text-primary">
+                  {turningPointSection.eyebrow}
+                </p>
+                <h3 className="mt-4 text-3xl sm:text-4xl">
+                  {turningPointSection.title}
+                </h3>
+                <div className="mt-6 space-y-5 text-lg leading-relaxed text-muted-foreground">
+                  {turningPointSection.body.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
+
+            {integrationSection.layout === "centered" ? (
+              <div className="grid gap-10 lg:grid-cols-1">
+                {integrationSection.centerVisual === "circle" ? (
+                  <div className="lg:col-span-12">
+                    <IntegrationCircle />
+                  </div>
+                ) : null}
+                <motion.div
+                  {...revealProps}
+                  transition={{ duration: 0.8, delay: 0.08, ease: "easeOut" }}
+                  className="mx-auto max-w-3xl text-center lg:col-span-12"
+                >
+                  <p className="text-sm font-medium uppercase tracking-[0.32em] text-primary">
+                    {integrationSection.eyebrow}
+                  </p>
+                  <h3 className="mt-4 text-3xl sm:text-4xl">
+                    {integrationSection.title}
+                  </h3>
+                  <div className="mt-6 space-y-5 text-lg leading-relaxed text-muted-foreground">
+                    {integrationSection.body.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
+                  </div>
+                </motion.div>
+              </div>
+            ) : null}
           </div>
         </div>
       </section>
