@@ -35,10 +35,10 @@ const workshops = [
 
 export function Workshops() {
   return (
-    <section id="workshops" className="py-24 bg-background">
+    <section id="workshops" className="pt-0 pb-16 sm:pb-20 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6 sm:mb-12">
           <div className="max-w-2xl">
             <h2 className="text-primary font-medium tracking-widest uppercase text-sm mb-3">Learn & Grow</h2>
             <h3 className="text-4xl sm:text-5xl font-serif text-foreground">Transformative Workshops</h3>
@@ -90,7 +90,7 @@ export function Workshops() {
                   {...bookingLinkProps}
                   className="w-full sm:w-auto px-6 py-3 rounded-xl bg-foreground text-background text-sm font-medium hover:bg-primary transition-colors duration-300 text-center"
                 >
-                  Reserve Spot
+                  Coming Soon
                 </a>
               </div>
             </motion.div>

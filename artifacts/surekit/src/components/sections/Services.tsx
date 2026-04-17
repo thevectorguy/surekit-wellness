@@ -112,9 +112,9 @@ const revealProps = {
 export function Services() {
   return (
     <>
-      <section id="services" className="bg-muted/30 py-24">
+      <section id="services" className="bg-muted/30 py-12 sm:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto mb-16 max-w-2xl text-center">
+          <div className="mx-auto mb-10 max-w-2xl text-center sm:mb-12">
             <h2 className="mb-3 text-sm font-medium uppercase tracking-widest text-primary">
               What We Offer
             </h2>
@@ -202,7 +202,7 @@ export function Services() {
         </div>
       </section>
 
-      <section className="py-24 sm:py-28">
+      <section className="py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
             {...revealProps}

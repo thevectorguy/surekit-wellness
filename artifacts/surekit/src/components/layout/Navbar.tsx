@@ -11,6 +11,8 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [location] = useLocation();
+  const showHomeLink = location !== "/";
+  const visibleNavLinks = navLinks.filter((link) => showHomeLink || link.name !== "Home");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,7 +40,7 @@ export function Navbar() {
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
-          {navLinks.map((link) => (
+          {visibleNavLinks.map((link) => (
             <Link
               key={link.name}
               href={link.href}
@@ -84,7 +86,7 @@ export function Navbar() {
             className="absolute left-0 right-0 top-full overflow-hidden border-b border-border bg-background shadow-lg md:hidden"
           >
             <div className="flex flex-col gap-4 px-4 py-6">
-              {navLinks.map((link) => (
+              {visibleNavLinks.map((link) => (
                 <Link
                   key={link.name}
                   href={link.href}

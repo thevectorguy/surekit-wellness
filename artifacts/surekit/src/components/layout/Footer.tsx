@@ -1,8 +1,12 @@
 import { Sparkles, Facebook, Instagram, Twitter } from "lucide-react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { navLinks } from "@/lib/navigation";
 
 export function Footer() {
+  const [location] = useLocation();
+  const showHomeLink = location !== "/";
+  const visibleNavLinks = navLinks.filter((link) => showHomeLink || link.name !== "Home");
+
   return (
     <footer className="bg-foreground text-background py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
@@ -24,7 +28,7 @@ export function Footer() {
         <div>
           <h4 className="font-serif text-lg font-semibold mb-4">Quick Links</h4>
           <ul className="space-y-3 text-sm text-background/70">
-            {navLinks.map((link) => (
+            {visibleNavLinks.map((link) => (
               <li key={link.name}>
                 <Link href={link.href} className="hover:text-primary transition-colors">
                   {link.name === "About" ? "Our Philosophy" : link.name === "Contact" ? "Contact Us" : link.name}
