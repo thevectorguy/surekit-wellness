@@ -58,7 +58,7 @@ function ProductCard({ product }: { product: Product }) {
           if (!product.purchasable) {
             toast({
               title: "Pricing on request",
-              description: `${product.name} is available for enquiry. Please contact us for the latest price.`,
+              description: `${product.name} is available for enquiry. Please contact us for pricing.`,
             });
             return;
           }

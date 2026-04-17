@@ -49,7 +49,7 @@ export function Footer() {
           </div>
           <p className="text-sm text-background/70">
             hello@surekitwellness.com<br />
-            +91 8586971529/ +91 9136516550
+            Contact us for pricing and availability
           </p>
         </div>
       </div>

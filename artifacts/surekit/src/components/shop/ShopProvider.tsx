@@ -69,7 +69,12 @@ export function ShopProvider({ children }: { children: ReactNode }) {
     try {
       const parsedCart = JSON.parse(savedCart) as CartItem[];
       if (Array.isArray(parsedCart)) {
-        setItems(parsedCart);
+        setItems(
+          parsedCart.map((item) => ({
+            ...item,
+            priceLabel: "Contact for pricing",
+          })),
+        );
       }
     } catch {
       window.localStorage.removeItem(CART_STORAGE_KEY);

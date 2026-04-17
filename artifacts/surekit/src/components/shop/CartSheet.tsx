@@ -280,7 +280,7 @@ export function CartSheet({ className }: CartSheetProps) {
                     }))
                   }
                   className="h-11 rounded-2xl border-[#d9cdf1] bg-[#fcfaff]"
-                  placeholder="+91"
+                  placeholder="Phone number"
                 />
               </label>
             </div>
@@ -331,7 +331,7 @@ export function CartSheet({ className }: CartSheetProps) {
               </div>
               <p className="text-sm leading-relaxed text-[#6d617f]">
                 {totalItems} item{totalItems === 1 ? "" : "s"} ready for checkout.
-                We&apos;ll keep the current prices from your cart on the submitted
+                We&apos;ll keep the item details from your cart on the submitted
                 order.
               </p>
             </div>

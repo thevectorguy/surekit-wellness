@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Phone, Mail, Send } from "lucide-react";
+import { Phone, Mail, Send } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -88,8 +88,8 @@ export function Contact() {
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-serif font-semibold text-xl mb-1 text-foreground">Call Us</h4>
-                  <p className="text-muted-foreground">+91 8586971529/ +91 9136516550<br />All Days: 9am - 6pm IST</p>
+                  <h4 className="font-serif font-semibold text-xl mb-1 text-foreground">Pricing & Enquiries</h4>
+                  <p className="text-muted-foreground">Contact us for pricing, availability, and session details.<br />We&apos;ll reply with the next steps.</p>
                 </div>
               </div>
 

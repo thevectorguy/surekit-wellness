@@ -171,10 +171,7 @@ function buildProduct(entry: CrystalCatalogSeedEntry, categoryId: string, sectio
   const legacyProductMatch = legacyProductByName.get(normalizeName(entry.name));
   const explicitPrice = parsePriceAmount(entry.priceAmount);
   const resolvedPrice = explicitPrice ?? legacyProductMatch?.price ?? 0;
-  const resolvedPriceLabel =
-    entry.priceLabel?.trim() ||
-    legacyProductMatch?.priceLabel ||
-    "Contact for pricing";
+  const resolvedPriceLabel = "Contact for pricing";
   const resolvedImage =
     entry.image?.trim() || legacyProductMatch?.image || PLACEHOLDER_IMAGE;
   const purchasable = resolvedPrice > 0;
@@ -250,9 +247,7 @@ export function buildProductCatalog(
     label: category.label,
     sections: category.sections.map((section) => ({
       ...section,
-      note: section.products.some((product) => !product.purchasable)
-        ? "Matching legacy images are preserved where available. Pricing is available on request for select items."
-        : "All prices are in Indian Rupees (INR).",
+      note: "Matching legacy images are preserved where available. Pricing is available on request.",
     })),
   }));
   const allProducts = productCategories.flatMap((category) =>
