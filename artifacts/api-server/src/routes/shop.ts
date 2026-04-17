@@ -1,5 +1,6 @@
 import { Router, type IRouter } from "express";
 import { db } from "@workspace/db";
+import { logger } from "../lib/logger";
 import {
   type CreateShopOrderRequest,
   createShopOrderRequestSchema,
@@ -83,7 +84,7 @@ shopRouter.post("/shop/orders", async (req, res) => {
       reference: createdOrder.reference,
     });
   } catch (error) {
-    req.log.error({ error }, "Failed to create shop order");
+    logger.error({ error }, "Failed to create shop order");
     res.status(500).json({
       error:
         "We couldn't create your order just now. Please try again after the database connection is configured.",

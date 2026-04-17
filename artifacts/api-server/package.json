@@ -18,7 +18,6 @@
     "express": "^5",
     "googleapis": "^171.4.0",
     "pino": "^9",
-    "pino-http": "^10",
     "zod": "catalog:"
   },
   "devDependencies": {

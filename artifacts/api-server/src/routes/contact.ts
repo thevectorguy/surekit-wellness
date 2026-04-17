@@ -4,6 +4,7 @@ import {
   appendContactSubmission,
   type ContactSubmission,
 } from "../lib/contact-sheet";
+import { logger } from "../lib/logger";
 
 const contactRouter: IRouter = Router();
 
@@ -34,7 +35,7 @@ contactRouter.post("/contact", async (req, res) => {
     await appendContactSubmission(parsedRequest.data satisfies ContactSubmission);
     res.status(201).json({ ok: true });
   } catch (error) {
-    req.log.error({ error }, "Failed to store contact form submission");
+    logger.error({ error }, "Failed to store contact form submission");
     res.status(500).json({
       error:
         "We couldn't send your message right now. Please try again after the Google Sheets connection is configured.",
