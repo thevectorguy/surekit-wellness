@@ -1,0 +1,20 @@
+packages:
+  "framer-motion": "For premium, smooth scroll animations and page transitions"
+  "react-hook-form": "For robust contact form handling"
+  "@hookform/resolvers": "For Zod schema validation in forms"
+  "zod": "For form validation schemas"
+  "clsx": "For conditional class merging"
+  "tailwind-merge": "For merging tailwind classes seamlessly"
+
+images:
+  - path: "artifacts/surekit/public/images/hero-bg.png"
+    description: "Serene, luxurious holistic spa background, soft natural lighting, elegant crystals and subtle essential oil diffusers, soft earthy tones with lavender and sage green accents, photorealistic, highly detailed, calming atmosphere"
+    aspect_ratio: "16:9"
+  - path: "artifacts/surekit/public/images/philosophy.png"
+    description: "Close up of smooth healing crystals (amethyst, rose quartz) and fresh lavender sprigs resting on a light warm beige textured linen cloth, calming natural sunlight casting soft shadows, macro photography, wellness aesthetic"
+    aspect_ratio: "4:3"
+
+notes:
+  - This is a static informational site, no backend API is required.
+  - The contact form will simulate submission with a brief loading state.
+  - Using smooth scrolling for in-page navigation.

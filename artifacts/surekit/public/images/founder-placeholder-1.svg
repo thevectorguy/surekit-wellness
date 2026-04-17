@@ -1,0 +1,32 @@
+<svg width="960" height="1200" viewBox="0 0 960 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="960" height="1200" rx="60" fill="#F6F0EB"/>
+  <circle cx="754" cy="238" r="188" fill="#DCCFE9" fill-opacity="0.75"/>
+  <circle cx="222" cy="930" r="212" fill="#C7DDD0" fill-opacity="0.7"/>
+  <circle cx="484" cy="312" r="256" stroke="#AE93C7" stroke-opacity="0.32" stroke-width="2"/>
+  <circle cx="484" cy="312" r="196" stroke="#AE93C7" stroke-opacity="0.22" stroke-width="2"/>
+  <path d="M484 438C575.679 438 650 363.679 650 272C650 180.321 575.679 106 484 106C392.321 106 318 180.321 318 272C318 363.679 392.321 438 484 438Z" stroke="#7B668D" stroke-opacity="0.16" stroke-width="2"/>
+  <path d="M479.5 336C538.871 336 587 287.871 587 228.5C587 169.129 538.871 121 479.5 121C420.129 121 372 169.129 372 228.5C372 287.871 420.129 336 479.5 336Z" fill="#FAF5EF" fill-opacity="0.82"/>
+  <path d="M480 364C417.592 364 367 414.592 367 477V572H593V477C593 414.592 542.408 364 480 364Z" fill="#FAF5EF" fill-opacity="0.82"/>
+  <path d="M479.5 354C552.125 354 611 295.125 611 222.5C611 149.875 552.125 91 479.5 91C406.875 91 348 149.875 348 222.5C348 295.125 406.875 354 479.5 354Z" fill="url(#paint0_linear_414_2)" fill-opacity="0.94"/>
+  <path d="M476 402C391.499 402 323 470.499 323 555V823H629V555C629 470.499 560.501 402 476 402Z" fill="url(#paint1_linear_414_2)"/>
+  <path d="M420 575C420 522.294 462.294 480 515 480H583C635.706 480 678 522.294 678 575V823H420V575Z" fill="#F2E9FB" fill-opacity="0.52"/>
+  <circle cx="480" cy="526" r="20" fill="#F6F0EB"/>
+  <path d="M480 558V688" stroke="#F6F0EB" stroke-width="14" stroke-linecap="round"/>
+  <path d="M392 640L480 724L568 640" stroke="#F6F0EB" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="480" cy="526" r="126" stroke="#A88CC3" stroke-opacity="0.24" stroke-width="2"/>
+  <path d="M204 810C308.382 763.774 379.983 720.667 418.803 680.68C457.623 640.692 478 587.132 480 520" stroke="#8A719F" stroke-opacity="0.15" stroke-width="2"/>
+  <path d="M758 754C636.965 707.408 559.429 647.636 525.393 574.684C491.356 501.732 479.945 434.837 491.159 374" stroke="#8A719F" stroke-opacity="0.15" stroke-width="2"/>
+  <rect x="116" y="958" width="728" height="110" rx="55" fill="#FFFDFB" fill-opacity="0.72" stroke="#D9CBBC"/>
+  <text x="480" y="1008" text-anchor="middle" fill="#5B544D" font-family="Georgia, serif" font-size="34" letter-spacing="3">FOUNDER PORTRAIT PLACEHOLDER</text>
+  <text x="480" y="1042" text-anchor="middle" fill="#83776C" font-family="Arial, sans-serif" font-size="18" letter-spacing="2.2">Replace with your actual founder photo when ready</text>
+  <defs>
+    <linearGradient id="paint0_linear_414_2" x1="479.5" y1="91" x2="479.5" y2="354" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8F2EC"/>
+      <stop offset="1" stop-color="#E3D6F0"/>
+    </linearGradient>
+    <linearGradient id="paint1_linear_414_2" x1="476" y1="402" x2="476" y2="823" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B69DD0"/>
+      <stop offset="1" stop-color="#8A709F"/>
+    </linearGradient>
+  </defs>
+</svg>
