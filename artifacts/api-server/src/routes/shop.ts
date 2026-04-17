@@ -6,7 +6,7 @@ import {
   createShopOrderRequestSchema,
   shopOrderItemsTable,
   shopOrdersTable,
-} from "../../../../lib/db/src/schema/shop";
+} from "@workspace/db/schema";
 
 const shopRouter: IRouter = Router();
 
