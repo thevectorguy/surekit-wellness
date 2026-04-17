@@ -129,7 +129,7 @@ export function Contact() {
                     <input 
                       {...register("name")}
                       className="w-full px-4 py-3 rounded-xl bg-input/50 border border-transparent focus:border-primary focus:bg-background focus:ring-4 focus:ring-primary/10 transition-all outline-none"
-                      placeholder="Jane Doe"
+                      placeholder="Ankita Tiwari"
                     />
                     {errors.name && <p className="text-red-500 text-xs">{errors.name.message}</p>}
                   </div>
@@ -140,7 +140,7 @@ export function Contact() {
                       {...register("email")}
                       type="email"
                       className="w-full px-4 py-3 rounded-xl bg-input/50 border border-transparent focus:border-primary focus:bg-background focus:ring-4 focus:ring-primary/10 transition-all outline-none"
-                      placeholder="jane@example.com"
+                      placeholder="ankita@example.com"
                     />
                     {errors.email && <p className="text-red-500 text-xs">{errors.email.message}</p>}
                   </div>

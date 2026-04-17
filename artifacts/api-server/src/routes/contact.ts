@@ -3,8 +3,8 @@ import { z } from "zod";
 import {
   appendContactSubmission,
   type ContactSubmission,
-} from "../lib/contact-sheet";
-import { logger } from "../lib/logger";
+} from "../lib/contact-sheet.js";
+import { logger } from "../lib/logger.js";
 
 const contactRouter: IRouter = Router();
 

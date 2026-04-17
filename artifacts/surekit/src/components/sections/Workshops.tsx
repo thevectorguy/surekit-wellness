@@ -6,28 +6,28 @@ const workshops = [
   {
     title: "Crystal Healing Fundamentals",
     desc: "Learn to work with crystals for personal healing, clearing energy fields, and setting intentions.",
-    duration: "2-Day Intensive",
+    // duration: "2-Day Intensive",
     // date: "Next: October 12-13",
     type: "In-Person"
   },
   {
     title: "The Art of Aromatherapy",
     desc: "Discover how to blend essential oils for therapeutic purposes, emotional balance, and home wellness.",
-    duration: "Half-Day Workshop",
+    // duration: "Half-Day Workshop",
     // date: "Next: November 5",
     type: "Virtual & In-Person"
   },
   {
     title: "NLP for Personal Growth",
     desc: "Master your mindset, reframe negative self-talk, and transform your life with foundational NLP tools.",
-    duration: "Weekend Workshop",
+    // duration: "Weekend Workshop",
     // date: "Next: November 18-19",
     type: "In-Person"
   },
   {
     title: "Holistic Wellness Retreat",
     desc: "A full immersive wellness experience combining all our modalities for complete rejuvenation.",
-    duration: "3-Day Retreat",
+    // duration: "3-Day Retreat",
     // date: "Next: Spring 2025",
     type: "Destination"
   }
@@ -60,10 +60,10 @@ export function Workshops() {
             >
               <div className="flex-1">
                 <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-background border border-border text-xs font-medium text-foreground">
+                  {/* <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-background border border-border text-xs font-medium text-foreground">
                     <Clock className="w-3.5 h-3.5 text-primary" />
                     {workshop.duration}
-                  </span>
+                  </span> */}
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-background border border-border text-xs font-medium text-foreground">
                     <MapPin className="w-3.5 h-3.5 text-secondary" />
                     {workshop.type}

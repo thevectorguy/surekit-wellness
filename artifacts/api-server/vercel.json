@@ -1,0 +1,29 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "src/app.js": {
+      "includeFiles": "dist/public/**"
+    },
+    "src/app.ts": {
+      "includeFiles": "dist/public/**"
+    },
+    "src/index.js": {
+      "includeFiles": "dist/public/**"
+    },
+    "src/index.ts": {
+      "includeFiles": "dist/public/**"
+    },
+    "index.js": {
+      "includeFiles": "dist/public/**"
+    }
+  },
+  "routes": [
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/"
+    }
+  ]
+}

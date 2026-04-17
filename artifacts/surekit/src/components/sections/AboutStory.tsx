@@ -6,7 +6,6 @@ import {
   Compass,
   Gem,
   Heart,
-  Leaf,
   Sparkles,
   SunMedium,
 } from "lucide-react";
@@ -23,6 +22,7 @@ const storySections = [
   {
     eyebrow: "The Foundation",
     title: "A life spent helping people grow",
+    layout: "split",
     body: [
       "With over 30 years in Learning & Development across leading IT organizations, I dedicated my career to unlocking human potential through coaching, counselling, and structured growth.",
       "Even while I saw people achieve visible success, I often sensed an unspoken inner gap beneath it all: stress, lack of clarity, and a deeper search for meaning that conventional approaches could not fully hold.",
@@ -35,26 +35,26 @@ const storySections = [
   {
     eyebrow: "The Turning Point",
     title: "A path that moved inward",
+    layout: "centered",
+    centerVisual: "none",
     body: [
       "That realization became a turning point in my own journey. I was drawn inward, where I was initiated into Srividya, a sacred spiritual path rooted in the worship of the Divine Feminine and a deep exploration of consciousness.",
       "More than a practice, Srividya became a way of life. It led me toward deeper awareness, inner balance, and a more expansive understanding of what true transformation asks of us.",
     ],
-    image: "images/philosophy.png",
-    alt: "Healing crystals and natural aromatherapy elements",
-    badge: "Sacred grounding",
-    aspect: "aspect-[5/4]",
   },
   {
     eyebrow: "The Integration",
     title: "Where ancient wisdom meets modern transformation",
+    layout: "centered",
+    centerVisual: "circle",
     body: [
       "Building on that spiritual grounding, I began integrating Neuro-Linguistic Programming, counselling, and coaching to help individuals shift limiting beliefs and patterns with clarity and compassion.",
       "I also incorporate Crystal Healing, Prana Vidya, and Numerology to support emotional release, energetic balance, and inner harmony, creating a holistic path that addresses both the seen and unseen layers of change.",
     ],
-    image: "images/9705cbca-1b62-4a6e-b066-07c5dc2b8aa7.jpg",
-    alt: "Second founder portrait placeholder with sacred geometry details",
-    badge: "Calming Soul",
-    aspect: "aspect-[4/5]",
+    // image: "images/9705cbca-1b62-4a6e-b066-07c5dc2b8aa7.jpg",
+    // alt: "Second founder portrait placeholder with sacred geometry details",
+    // badge: "Calming Soul",
+    // aspect: "aspect-[4/5]",
   },
 ];
 
@@ -83,12 +83,12 @@ const practicePillars = [
     description:
       "Working with natural vibrational energies to support release, energetic balance, and emotional steadiness.",
   },
-  {
-    icon: Compass,
-    title: "Numerology",
-    description:
-      "A symbolic lens for understanding timing, tendencies, and life themes with greater clarity and meaning.",
-  },
+  // {
+  //   icon: Compass,
+  //   title: "Numerology",
+  //   description:
+  //     "A symbolic lens for understanding timing, tendencies, and life themes with greater clarity and meaning.",
+  // },
   {
     icon: SunMedium,
     title: "Prana Vidya",
@@ -159,6 +159,31 @@ function ImageMoment({ src, alt, badge, aspect }: ImageMomentProps) {
   );
 }
 
+function IntegrationCircle() {
+  return (
+    <motion.div
+      {...revealProps}
+      transition={{ duration: 0.85, ease: "easeOut" }}
+      className="relative mx-auto flex w-full max-w-[28rem] items-center justify-center"
+    >
+      <div className="absolute inset-4 rounded-full bg-primary/10 blur-3xl" />
+      <div className="absolute inset-0 rounded-full border border-primary/15 bg-[radial-gradient(circle,_rgba(255,255,255,0.95)_0%,_rgba(243,236,247,0.9)_45%,_rgba(224,236,226,0.82)_100%)] shadow-[0_28px_90px_rgba(36,52,49,0.12)]" />
+      <div className="relative flex aspect-square w-full max-w-[24rem] flex-col items-center justify-center rounded-full border border-white/70 bg-white/35 px-10 text-center backdrop-blur-sm">
+        <span className="text-xs font-medium uppercase tracking-[0.34em] text-primary">
+          Integration
+        </span>
+        <h3 className="mt-4 max-w-[12ch] text-3xl leading-tight text-foreground sm:text-4xl">
+          Ancient wisdom in a modern circle
+        </h3>
+        <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground sm:text-base">
+          A unified space for NLP, counselling, coaching, crystal healing,
+          Prana Vidya, and numerology.
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
 export function AboutStory() {
   const imageBase = `${import.meta.env.BASE_URL}images/`;
 
@@ -180,21 +205,22 @@ export function AboutStory() {
         <div className="absolute bottom-8 right-0 -z-10 h-80 w-80 rounded-full bg-secondary/20 blur-3xl" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 lg:pb-28">
-          <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="grid items-center gap-14">
             <motion.div
               initial={{ opacity: 0, x: -32 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.9, ease: "easeOut" }}
-              className="max-w-2xl"
+              className="max-w-3xl"
             >
-              <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white/70 px-4 py-2 text-xs font-medium uppercase tracking-[0.3em] text-primary backdrop-blur-sm">
-                <Leaf className="h-3.5 w-3.5" />
-                Founders Story
-              </div>
+              <p className="text-sm font-medium uppercase tracking-[0.34em] text-primary">
+                The Journey
+              </p>
 
               <h1 className="mt-6 text-balance text-5xl font-light leading-[0.95] text-foreground sm:text-6xl lg:text-7xl">
-                From guiding careers{" "}
-                <span className="italic text-primary">to guiding lives</span>
+                A story shaped by{" "}
+                <span className="italic text-primary">
+                  coaching, consciousness, and holistic healing
+                </span>
               </h1>
 
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-foreground/78 sm:text-xl">
@@ -204,7 +230,48 @@ export function AboutStory() {
                 inner balance.
               </p>
 
-              <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              {/* <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                <a
+                  {...bookingLinkProps}
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-4 text-base font-medium text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/20"
+                >
+                  Begin your Journey
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+                <Link
+                  href="/services"
+                  className="inline-flex items-center justify-center rounded-full border border-foreground/10 bg-white/60 px-7 py-4 text-base font-medium text-foreground transition-all duration-300 hover:border-primary/20 hover:bg-white/80"
+                >
+                  Explore the Modalities
+                </Link>
+              </div>
+
+              <div className="mt-12 grid gap-6 border-t border-foreground/10 pt-8 sm:grid-cols-3">
+                {heroHighlights.map((item) => (
+                  <div key={item.label}>
+                    <p className="font-serif text-3xl text-foreground">
+                      {item.value}
+                    </p>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                      {item.label}
+                    </p>
+                  </div>
+                ))}
+              </div> */}
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      <section className="relative py-24 sm:py-28">
+        <div className="absolute inset-x-0 top-28 h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            {...revealProps}
+            transition={{ duration: 0.75, ease: "easeOut" }}
+            className="max-w-3xl"
+          >
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
                 <a
                   {...bookingLinkProps}
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-4 text-base font-medium text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/20"
@@ -232,122 +299,77 @@ export function AboutStory() {
                   </div>
                 ))}
               </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 32 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.95, ease: "easeOut", delay: 0.1 }}
-              className="relative"
-            >
-              <div className="relative mx-auto max-w-[34rem]">
-                <motion.div
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                  className="ml-auto w-[78%]"
-                >
-                  <div className="overflow-hidden rounded-[2.2rem] border border-white/70 bg-white/70 shadow-[0_28px_90px_rgba(36,52,49,0.14)] backdrop-blur-sm">
-                    <div className="aspect-[4/5] overflow-hidden">
-                      <img
-                        src={`${imageBase}9257ca5a-f5b0-47a1-b37d-1dbc5d529dfd.jpg`}
-                        alt="Founder portrait placeholder"
-                        className="h-full w-full object-cover"
-                      />
-                    </div>
-                  </div>
-                </motion.div>
-
-                {/* <motion.div
-                  animate={{ y: [0, 8, 0] }}
-                  transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -left-2 bottom-14 w-[44%] sm:-left-6"
-                >
-                  <div className="overflow-hidden rounded-[1.8rem] border border-white/70 bg-white/70 shadow-[0_24px_70px_rgba(36,52,49,0.12)] backdrop-blur-sm">
-                    <div className="aspect-[4/5] overflow-hidden">
-                      <img
-                        src={`${imageBase}philosophy.png`}
-                        alt="Healing crystals and aromatic botanicals"
-                        className="h-full w-full object-cover"
-                      />
-                    </div>
-                  </div>
-                </motion.div> */}
-
-                <motion.div
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.85, delay: 0.35 }}
-                  className="glass-panel absolute -bottom-8 right-3 max-w-xs rounded-[1.8rem] p-5 sm:right-8"
-                >
-                  <p className="text-xs uppercase tracking-[0.32em] text-primary">
-                    The Shift
-                  </p>
-                  <p className="mt-3 font-serif text-2xl leading-tight text-foreground">
-                    External success can still leave the heart searching for a
-                    deeper kind of meaning.
-                  </p>
-                </motion.div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      <section className="relative py-24 sm:py-28">
-        <div className="absolute inset-x-0 top-28 h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            {...revealProps}
-            transition={{ duration: 0.75, ease: "easeOut" }}
-            className="max-w-3xl"
-          >
-            <p className="text-sm font-medium uppercase tracking-[0.34em] text-primary">
-              The Journey
-            </p>
-            <h2 className="mt-4 text-balance text-4xl sm:text-5xl">
-              A story shaped by coaching, consciousness, and holistic healing.
-            </h2>
           </motion.div>
 
           <div className="mt-16 space-y-20 lg:space-y-28">
             {storySections.map((section, index) => {
               const imageOnLeft = index % 2 === 0;
+              const isCentered = section.layout === "centered";
 
               return (
                 <div
                   key={section.title}
-                  className="grid items-center gap-10 lg:grid-cols-12 lg:gap-14"
+                  className={`grid items-center gap-10 ${
+                    isCentered ? "justify-items-center lg:grid-cols-1" : "lg:grid-cols-12 lg:gap-14"
+                  }`}
                 >
-                  <div
-                    className={`lg:col-span-6 ${
-                      imageOnLeft ? "lg:order-1" : "lg:order-2"
-                    }`}
-                  >
-                    <ImageMoment
-                      src={section.image}
-                      alt={section.alt}
-                      badge={section.badge}
-                      aspect={section.aspect}
-                    />
-                  </div>
+                  {isCentered ? (
+                    <>
+                      {section.centerVisual === "circle" ? (
+                        <div className="lg:col-span-12">
+                          <IntegrationCircle />
+                        </div>
+                      ) : null}
+                      <motion.div
+                        {...revealProps}
+                        transition={{ duration: 0.8, delay: 0.08, ease: "easeOut" }}
+                        className="mx-auto max-w-3xl text-center lg:col-span-12"
+                      >
+                        <p className="text-sm font-medium uppercase tracking-[0.32em] text-primary">
+                          {section.eyebrow}
+                        </p>
+                        <h3 className="mt-4 text-3xl sm:text-4xl">{section.title}</h3>
+                        <div className="mt-6 space-y-5 text-lg leading-relaxed text-muted-foreground">
+                          {section.body.map((paragraph) => (
+                            <p key={paragraph}>{paragraph}</p>
+                          ))}
+                        </div>
+                      </motion.div>
+                    </>
+                  ) : (
+                    <div
+                      className={`lg:col-span-6 ${
+                        imageOnLeft ? "lg:order-1" : "lg:order-2"
+                      }`}
+                    >
+	                      <ImageMoment
+	                        src={section.image ?? "images/founder-placeholder-2.svg"}
+	                        alt={section.alt ?? section.title}
+	                        badge={section.badge ?? "Guiding Presence"}
+	                        aspect={section.aspect ?? "aspect-[4/5]"}
+	                      />
+	                    </div>
+	                  )}
 
-                  <motion.div
-                    {...revealProps}
-                    transition={{ duration: 0.8, delay: 0.08, ease: "easeOut" }}
-                    className={`lg:col-span-5 ${
-                      imageOnLeft ? "lg:col-start-8" : "lg:col-start-1"
-                    } ${imageOnLeft ? "lg:order-2" : "lg:order-1"}`}
-                  >
-                    <p className="text-sm font-medium uppercase tracking-[0.32em] text-primary">
-                      {section.eyebrow}
-                    </p>
-                    <h3 className="mt-4 text-3xl sm:text-4xl">{section.title}</h3>
-                    <div className="mt-6 space-y-5 text-lg leading-relaxed text-muted-foreground">
-                      {section.body.map((paragraph) => (
-                        <p key={paragraph}>{paragraph}</p>
-                      ))}
-                    </div>
-                  </motion.div>
+                  {!isCentered ? (
+                    <motion.div
+                      {...revealProps}
+                      transition={{ duration: 0.8, delay: 0.08, ease: "easeOut" }}
+                      className={`lg:col-span-5 ${
+                        imageOnLeft ? "lg:col-start-8" : "lg:col-start-1"
+                      } ${imageOnLeft ? "lg:order-2" : "lg:order-1"}`}
+                    >
+                      <p className="text-sm font-medium uppercase tracking-[0.32em] text-primary">
+                        {section.eyebrow}
+                      </p>
+                      <h3 className="mt-4 text-3xl sm:text-4xl">{section.title}</h3>
+                      <div className="mt-6 space-y-5 text-lg leading-relaxed text-muted-foreground">
+                        {section.body.map((paragraph) => (
+                          <p key={paragraph}>{paragraph}</p>
+                        ))}
+                      </div>
+                    </motion.div>
+                  ) : null}
                 </div>
               );
             })}
@@ -418,7 +440,7 @@ export function AboutStory() {
         </div>
       </section>
 
-      <section className="py-24 sm:py-28">
+      {/* <section className="py-24 sm:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             {...revealProps}
@@ -479,7 +501,7 @@ export function AboutStory() {
             </div>
           </motion.div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }

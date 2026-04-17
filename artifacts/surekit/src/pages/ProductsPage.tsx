@@ -1,15 +1,29 @@
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { useShop } from "@/components/shop/ShopProvider";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { toast } from "@/hooks/use-toast";
 import {
   allProducts,
-  formatCurrency,
-  getCategoryById,
-  productTabs,
+  buildProductCatalog,
+  type CrystalCatalogSeedEntry,
+  type ProductCategory,
+  type ProductCatalogResponse,
   type Product,
+  productCategories,
+  productTabs as fallbackProductTabs,
 } from "@/lib/product-catalog";
+import { cn } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
+import { ChevronDown } from "lucide-react";
+import { useEffect, useState } from "react";
 
 function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useShop();
@@ -38,8 +52,17 @@ function ProductCard({ product }: { product: Product }) {
 
       <Button
         type="button"
-        className="mt-5 w-full rounded-full border-transparent bg-[#8f67d8] py-3 text-white hover:bg-[#7650bc]"
+        disabled={!product.purchasable}
+        className="mt-5 w-full rounded-full border-transparent bg-[#8f67d8] py-3 text-white hover:bg-[#7650bc] disabled:cursor-not-allowed disabled:bg-[#d7c9f1] disabled:text-[#6d617f]"
         onClick={() => {
+          if (!product.purchasable) {
+            toast({
+              title: "Pricing on request",
+              description: `${product.name} is available for enquiry. Please contact us for the latest price.`,
+            });
+            return;
+          }
+
           addToCart(product);
           toast({
             title: "Added to cart",
@@ -47,7 +70,7 @@ function ProductCard({ product }: { product: Product }) {
           });
         }}
       >
-        Add to Cart
+        {product.purchasable ? "Add to Cart" : "Contact for Pricing"}
       </Button>
     </article>
   );
@@ -92,7 +115,81 @@ function CategorySection({
   );
 }
 
+const fallbackCatalog: ProductCatalogResponse = {
+  productCategories,
+  productTabs: fallbackProductTabs,
+  allProducts,
+};
+
+const LUMINOUS_COLLECTION_ID = "luminous-collections-of-crystals";
+
+function getDefaultViewId(catalog: ProductCatalogResponse) {
+  return (
+    catalog.productCategories.find(
+      (category) => category.id === LUMINOUS_COLLECTION_ID,
+    )?.id ??
+    catalog.productCategories[0]?.id ??
+    "view-all"
+  );
+}
+
+function isCategoryActive(category: ProductCategory, activeView: string) {
+  return (
+    activeView === category.id ||
+    category.sections.some((section) => section.id === activeView)
+  );
+}
+
+function getCategoryButtonClass(isActive: boolean) {
+  return cn(
+    "inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm transition-colors",
+    isActive
+      ? "bg-[#8f67d8] text-white shadow-none"
+      : "text-[#5f4c86] hover:bg-[#f6efff]",
+  );
+}
+
+async function fetchCatalogEntries() {
+  const response = await fetch("/api/shop/catalog");
+
+  if (!response.ok) {
+    throw new Error("Unable to load the live catalog.");
+  }
+
+  return (await response.json()) as CrystalCatalogSeedEntry[];
+}
+
 export default function ProductsPage() {
+  const { data } = useQuery({
+    queryKey: ["shop-catalog"],
+    queryFn: fetchCatalogEntries,
+    retry: false,
+  });
+  const liveCatalog = data ? buildProductCatalog(data) : null;
+  const catalog = liveCatalog ?? fallbackCatalog;
+  const defaultViewId = getDefaultViewId(catalog);
+  const [activeView, setActiveView] = useState(defaultViewId);
+
+  useEffect(() => {
+    const validViewIds = new Set([
+      "view-all",
+      ...catalog.productCategories.map((category) => category.id),
+      ...catalog.productCategories.flatMap((category) =>
+        category.sections.map((section) => section.id),
+      ),
+    ]);
+
+    if (!validViewIds.has(activeView)) {
+      setActiveView(defaultViewId);
+    }
+  }, [activeView, catalog.productCategories, defaultViewId]);
+
+  const activeCategory = catalog.productCategories.find((category) =>
+    isCategoryActive(category, activeView),
+  );
+  const activeSection =
+    activeCategory?.sections.find((section) => section.id === activeView) ?? null;
+
   return (
     <SiteLayout mainClassName="pt-24">
       <section className="bg-[radial-gradient(circle_at_top,_rgba(154,120,224,0.14),_transparent_36%),linear-gradient(180deg,#ffffff_0%,#fbf8ff_52%,#ffffff_100%)] py-14 md:py-20">
@@ -114,53 +211,109 @@ export default function ProductsPage() {
           </div>
 
           <div className="mt-12">
-            <Tabs defaultValue="view-all" className="w-full">
-              <div className="overflow-x-auto pb-4">
-                <div className="flex w-max min-w-full justify-center">
-                  <TabsList className="h-auto min-w-max gap-2 rounded-full border border-[#eadff7] bg-white/80 p-2 backdrop-blur">
-                    {productTabs.map((tab) => (
-                      <TabsTrigger
-                        key={tab.id}
-                        value={tab.id}
-                        className="rounded-full px-5 py-2.5 text-sm text-[#5f4c86] data-[state=active]:bg-[#8f67d8] data-[state=active]:text-white data-[state=active]:shadow-none"
-                      >
-                        {tab.label}
-                      </TabsTrigger>
-                    ))}
-                  </TabsList>
+            <div className="overflow-x-auto pb-4">
+              <div className="flex w-max min-w-full justify-center">
+                <div className="flex h-auto min-w-max items-center gap-2 rounded-full border border-[#eadff7] bg-white/80 p-2 backdrop-blur">
+                  {catalog.productCategories.map((category) => {
+                    const categoryActive = isCategoryActive(category, activeView);
+
+                    if (category.sections.length <= 1) {
+                      return (
+                        <button
+                          key={category.id}
+                          type="button"
+                          className={getCategoryButtonClass(categoryActive)}
+                          onClick={() => setActiveView(category.id)}
+                        >
+                          {category.label}
+                        </button>
+                      );
+                    }
+
+                    return (
+                      <DropdownMenu key={category.id}>
+                        <DropdownMenuTrigger asChild>
+                          <button
+                            type="button"
+                            className={getCategoryButtonClass(categoryActive)}
+                          >
+                            {category.label}
+                            <ChevronDown className="h-4 w-4" />
+                          </button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent
+                          align="start"
+                          className="w-72 rounded-[24px] border-[#eadff7] bg-white p-2 shadow-[0_18px_48px_rgba(92,70,137,0.14)]"
+                        >
+                          <DropdownMenuLabel className="px-3 pb-1 pt-2 text-xs uppercase tracking-[0.24em] text-[#8f67d8]">
+                            Browse {category.label}
+                          </DropdownMenuLabel>
+                          <DropdownMenuItem
+                            className={cn(
+                              "cursor-pointer rounded-2xl px-3 py-2.5 text-[#5f4c86] focus:bg-[#f6efff] focus:text-[#362352]",
+                              activeView === category.id &&
+                                "bg-[#f6efff] text-[#362352]",
+                            )}
+                            onSelect={() => setActiveView(category.id)}
+                          >
+                            All {category.label}
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator className="bg-[#f0e9fb]" />
+                          {category.sections.map((section) => (
+                            <DropdownMenuItem
+                              key={section.id}
+                              className={cn(
+                                "cursor-pointer rounded-2xl px-3 py-2.5 text-[#5f4c86] focus:bg-[#f6efff] focus:text-[#362352]",
+                                activeView === section.id &&
+                                  "bg-[#f6efff] text-[#362352]",
+                              )}
+                              onSelect={() => setActiveView(section.id)}
+                            >
+                              {section.title}
+                            </DropdownMenuItem>
+                          ))}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    );
+                  })}
+
+                  <button
+                    type="button"
+                    className={getCategoryButtonClass(activeView === "view-all")}
+                    onClick={() => setActiveView("view-all")}
+                  >
+                    View All
+                  </button>
                 </div>
               </div>
+            </div>
 
-              <TabsContent value="view-all" className="mt-8">
-                <ProductGrid products={allProducts} />
-              </TabsContent>
-
-              {productTabs
-                .filter((tab) => tab.id !== "view-all")
-                .map((tab) => {
-                  const category = getCategoryById(tab.id);
-
-                  if (!category) {
-                    return null;
-                  }
-
-                  return (
-                    <TabsContent key={tab.id} value={tab.id} className="mt-8">
-                      <div className="space-y-12">
-                        {category.sections.map((section) => (
-                          <CategorySection
-                            key={section.id}
-                            title={section.title}
-                            description={section.description}
-                            note={section.note}
-                            products={section.products}
-                          />
-                        ))}
-                      </div>
-                    </TabsContent>
-                  );
-                })}
-            </Tabs>
+            <div className="mt-8">
+              {activeView === "view-all" ? (
+                <ProductGrid products={catalog.allProducts} />
+              ) : activeCategory && activeSection ? (
+                <CategorySection
+                  title={activeSection.title}
+                  description={activeSection.description}
+                  note={activeSection.note}
+                  products={activeSection.products}
+                />
+              ) : activeCategory ? (
+                <div className="space-y-12">
+                  {activeCategory.sections.map((section) => (
+                    <CategorySection
+                      key={section.id}
+                      title={section.title}
+                      description={section.description}
+                      note={section.note}
+                      products={section.products}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <ProductGrid products={catalog.allProducts} />
+              )}
+            </div>
           </div>
         </div>
       </section>
