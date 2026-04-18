@@ -155,17 +155,15 @@ function ImageMoment({
     >
       <div className="absolute -inset-5 rounded-[2rem] bg-primary/10 blur-3xl transition-opacity duration-500 group-hover:opacity-80" />
       <div
-        className={`relative overflow-hidden rounded-[2rem] border border-white/60 bg-white/70 shadow-[0_24px_80px_rgba(36,52,49,0.12)] backdrop-blur-sm ${
-          frameClassName ?? ""
-        }`}
+        className={`relative overflow-hidden rounded-[2rem] border border-white/60 bg-white/70 shadow-[0_24px_80px_rgba(36,52,49,0.12)] backdrop-blur-sm ${frameClassName ?? ""
+          }`}
       >
         <div className={`${aspect} overflow-hidden`}>
           <img
             src={`${import.meta.env.BASE_URL}${src}`}
             alt={alt}
-            className={`h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03] ${
-              imageClassName ?? ""
-            }`}
+            className={`h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03] ${imageClassName ?? ""
+              }`}
           />
         </div>
       </div>
@@ -285,33 +283,33 @@ export function AboutStory() {
             className="max-w-3xl"
           >
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-                <a
-                  {...bookingLinkProps}
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-4 text-base font-medium text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/20"
-                >
-                  Begin your Journey
-                  <ArrowRight className="h-4 w-4" />
-                </a>
-                <Link
-                  href="/services"
-                  className="inline-flex items-center justify-center rounded-full border border-foreground/10 bg-white/60 px-7 py-4 text-base font-medium text-foreground transition-all duration-300 hover:border-primary/20 hover:bg-white/80"
-                >
-                  Explore the Modalities
-                </Link>
-              </div>
+              <a
+                {...bookingLinkProps}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-4 text-base font-medium text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/20"
+              >
+                Begin your Journey
+                <ArrowRight className="h-4 w-4" />
+              </a>
+              <Link
+                href="/services"
+                className="inline-flex items-center justify-center rounded-full border border-foreground/10 bg-white/60 px-7 py-4 text-base font-medium text-foreground transition-all duration-300 hover:border-primary/20 hover:bg-white/80"
+              >
+                Explore the Modalities
+              </Link>
+            </div>
 
-              <div className="mt-12 grid gap-6 border-t border-foreground/10 pt-8 sm:grid-cols-3">
-                {heroHighlights.map((item) => (
-                  <div key={item.label}>
-                    <p className="font-serif text-3xl text-foreground">
-                      {item.value}
-                    </p>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      {item.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
+            <div className="mt-12 grid gap-6 border-t border-foreground/10 pt-8 sm:grid-cols-3">
+              {heroHighlights.map((item) => (
+                <div key={item.label}>
+                  <p className="font-serif text-3xl text-foreground">
+                    {item.value}
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {item.label}
+                  </p>
+                </div>
+              ))}
+            </div>
           </motion.div>
 
           <div ref={foundationRef} className="mt-16 space-y-20 lg:space-y-28">
@@ -427,7 +425,7 @@ export function AboutStory() {
               <div className="mt-10 overflow-hidden rounded-[2rem] border border-white/70 bg-white/70 shadow-[0_24px_70px_rgba(36,52,49,0.1)] backdrop-blur-sm">
                 <div className="aspect-[5/4] overflow-hidden">
                   <img
-                    src={`${imageBase}hero-bg.png`}
+                    src={`${imageBase}philosophy.png`}
                     alt="A serene healing environment with soft natural light"
                     className="h-full w-full object-cover"
                   />
@@ -443,9 +441,8 @@ export function AboutStory() {
               {practicePillars.map((pillar, index) => (
                 <div
                   key={pillar.title}
-                  className={`border-t border-foreground/10 pt-5 ${
-                    index < 2 ? "sm:pt-0 sm:border-t-0" : ""
-                  }`}
+                  className={`border-t border-foreground/10 pt-5 ${index < 2 ? "sm:pt-0 sm:border-t-0" : ""
+                    }`}
                 >
                   <div className="flex items-center gap-3">
                     <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 text-primary">
