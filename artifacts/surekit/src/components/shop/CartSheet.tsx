@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
-import { formatCurrency } from "@/lib/product-catalog";
 import { useShop, type CheckoutFormValues } from "./ShopProvider";
 
 const EMPTY_FORM: CheckoutFormValues = {
@@ -30,6 +29,9 @@ const EMPTY_FORM: CheckoutFormValues = {
   notes: "",
 };
 
+const PRICE_ON_REQUEST_LABEL = "Price on request";
+const TBD_LABEL = "TBD";
+
 type CartSheetProps = {
   className?: string;
 };
@@ -38,7 +40,6 @@ export function CartSheet({ className }: CartSheetProps) {
   const {
     items,
     totalItems,
-    subtotal,
     isSubmitting,
     removeFromCart,
     updateQuantity,
@@ -171,7 +172,7 @@ export function CartSheet({ className }: CartSheetProps) {
 
                     <div className="flex flex-col items-end justify-between gap-3">
                       <p className="font-semibold text-[#352352]">
-                        {formatCurrency(item.price * item.quantity)}
+                        {PRICE_ON_REQUEST_LABEL}
                       </p>
                       <button
                         type="button"
@@ -188,14 +189,12 @@ export function CartSheet({ className }: CartSheetProps) {
               <div className="space-y-4 border-t border-[#efe8fb] py-5">
                 <div className="flex items-center justify-between text-[#352352]">
                   <span className="font-medium">Subtotal</span>
-                  <span className="text-lg font-semibold">
-                    {formatCurrency(subtotal)}
-                  </span>
+                  <span className="text-lg font-semibold">{TBD_LABEL}</span>
                 </div>
 
                 <p className="text-sm leading-relaxed text-[#6d617f]">
-                  Submit your order and we&apos;ll follow up with availability,
-                  shipping, and payment confirmation for Sacred Crystal Boutique.
+                  Submit your order and we&apos;ll follow up with availability and
+                  pricing confirmation for Sacred Crystal Boutique.
                 </p>
 
                 <div className="flex flex-col gap-3">
@@ -325,9 +324,7 @@ export function CartSheet({ className }: CartSheetProps) {
                 <span className="text-sm font-medium uppercase tracking-[0.24em] text-[#8f67d8]">
                   Order Summary
                 </span>
-                <span className="font-semibold text-[#352352]">
-                  {formatCurrency(subtotal)}
-                </span>
+                <span className="font-semibold text-[#352352]">{TBD_LABEL}</span>
               </div>
               <p className="text-sm leading-relaxed text-[#6d617f]">
                 {totalItems} item{totalItems === 1 ? "" : "s"} ready for checkout.

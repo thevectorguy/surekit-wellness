@@ -174,7 +174,6 @@ function buildProduct(entry: CrystalCatalogSeedEntry, categoryId: string, sectio
   const resolvedPriceLabel = "Contact for pricing";
   const resolvedImage =
     entry.image?.trim() || legacyProductMatch?.image || PLACEHOLDER_IMAGE;
-  const purchasable = resolvedPrice > 0;
 
   return {
     id: entry.slug,
@@ -184,7 +183,7 @@ function buildProduct(entry: CrystalCatalogSeedEntry, categoryId: string, sectio
     priceLabel: resolvedPriceLabel,
     image: resolvedImage,
     category: categoryId,
-    purchasable,
+    purchasable: true,
   };
 }
 

@@ -72,7 +72,7 @@ export function ShopProvider({ children }: { children: ReactNode }) {
         setItems(
           parsedCart.map((item) => ({
             ...item,
-            priceLabel: "Contact for pricing",
+            priceLabel: item.priceLabel || "Contact for pricing",
           })),
         );
       }

@@ -52,17 +52,8 @@ function ProductCard({ product }: { product: Product }) {
 
       <Button
         type="button"
-        disabled={!product.purchasable}
         className="mt-5 w-full rounded-full border-transparent bg-[#8f67d8] py-3 text-white hover:bg-[#7650bc] disabled:cursor-not-allowed disabled:bg-[#d7c9f1] disabled:text-[#6d617f]"
         onClick={() => {
-          if (!product.purchasable) {
-            toast({
-              title: "Pricing on request",
-              description: `${product.name} is available for enquiry. Please contact us for pricing.`,
-            });
-            return;
-          }
-
           addToCart(product);
           toast({
             title: "Added to cart",
@@ -70,7 +61,7 @@ function ProductCard({ product }: { product: Product }) {
           });
         }}
       >
-        {product.purchasable ? "Add to Cart" : "Contact for Pricing"}
+        Add to Cart
       </Button>
     </article>
   );
