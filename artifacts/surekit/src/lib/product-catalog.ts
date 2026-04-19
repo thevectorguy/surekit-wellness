@@ -5,6 +5,7 @@ export type ProductCategoryId = string;
 export type Product = {
   id: string;
   name: string;
+  header: string;
   description: string;
   price: number;
   priceLabel: string;
@@ -112,6 +113,23 @@ function stripHeadingPrefix(value: string) {
     .trim();
 }
 
+function parseRawLabel(rawLabel: string) {
+  const normalized = normalizeWhitespace(rawLabel);
+  const match = normalized.match(/^(.*?)\((.*?)\)\s*$/);
+
+  if (!match) {
+    return {
+      name: normalized.replace(/^[, ]+|[, ]+$/g, ""),
+      header: "",
+    };
+  }
+
+  return {
+    name: normalizeWhitespace(match[1].replace(/^[, ]+|[, ]+$/g, "")),
+    header: normalizeWhitespace(match[2]),
+  };
+}
+
 function titleCaseWord(word: string) {
   return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 }
@@ -122,6 +140,10 @@ function prettifyHeading(value: string | null | undefined, fallback: string) {
 
   if (!baseValue) {
     return "Collection";
+  }
+
+  if (baseValue.toLowerCase() === "jewellery") {
+    return "Amulets";
   }
 
   if (!/[a-z]/.test(baseValue)) {
@@ -155,12 +177,33 @@ function parsePriceAmount(value: number | string | null | undefined) {
   return Number.isFinite(parsed) ? parsed : null;
 }
 
-function createDefaultDescription(entry: CrystalCatalogSeedEntry, sectionTitle: string) {
+function createResolvedPriceLabel(
+  priceAmount: number | null,
+  explicitLabel: string | null | undefined,
+) {
+  const normalizedLabel = explicitLabel?.trim() || "";
+
+  if (normalizedLabel) {
+    return normalizedLabel;
+  }
+
+  if (priceAmount === null) {
+    return "Contact for pricing";
+  }
+
+  return formatCurrency(priceAmount);
+}
+
+function createDefaultDescription(
+  entry: CrystalCatalogSeedEntry,
+  sectionTitle: string,
+  collectionLabel: string,
+) {
   if (entry.description) {
     return normalizeWhitespace(entry.description);
   }
 
-  return `Part of the ${sectionTitle} collection from ${entry.collection}.`;
+  return `Part of the ${sectionTitle} collection from ${collectionLabel}.`;
 }
 
 const legacyProductByName = new Map(
@@ -170,15 +213,21 @@ const legacyProductByName = new Map(
 function buildProduct(entry: CrystalCatalogSeedEntry, categoryId: string, sectionTitle: string): Product {
   const legacyProductMatch = legacyProductByName.get(normalizeName(entry.name));
   const explicitPrice = parsePriceAmount(entry.priceAmount);
-  const resolvedPrice = explicitPrice ?? legacyProductMatch?.price ?? 0;
-  const resolvedPriceLabel = "Contact for pricing";
+  const resolvedPrice = explicitPrice ?? 0;
+  const resolvedPriceLabel = createResolvedPriceLabel(
+    explicitPrice,
+    entry.priceLabel,
+  );
   const resolvedImage =
     entry.image?.trim() || legacyProductMatch?.image || PLACEHOLDER_IMAGE;
+  const collectionLabel = prettifyHeading(entry.collection, "Collection");
+  const { header } = parseRawLabel(entry.rawLabel || entry.name);
 
   return {
     id: entry.slug,
     name: normalizeWhitespace(entry.name),
-    description: createDefaultDescription(entry, sectionTitle),
+    header,
+    description: createDefaultDescription(entry, sectionTitle, collectionLabel),
     price: resolvedPrice,
     priceLabel: resolvedPriceLabel,
     image: resolvedImage,
@@ -246,7 +295,8 @@ export function buildProductCatalog(
     label: category.label,
     sections: category.sections.map((section) => ({
       ...section,
-      note: "Matching legacy images are preserved where available. Pricing is available on request.",
+      note:
+        "Matching legacy images are preserved where available. Prices are shown when listed, and unpriced items remain available on request.",
     })),
   }));
   const allProducts = productCategories.flatMap((category) =>
@@ -260,9 +310,12 @@ export function buildProductCatalog(
   return { productCategories, productTabs, allProducts };
 }
 
-const defaultCatalog = buildProductCatalog(
-  seedEntries as CrystalCatalogSeedEntry[],
-);
+const defaultSeedEntries = seedEntries as CrystalCatalogSeedEntry[];
+
+const defaultCatalog = buildProductCatalog(defaultSeedEntries);
+
+export const fallbackCatalogSourceWorkbook =
+  defaultSeedEntries[0]?.sourceWorkbook ?? null;
 
 export const productCategories = defaultCatalog.productCategories;
 export const productTabs = defaultCatalog.productTabs;

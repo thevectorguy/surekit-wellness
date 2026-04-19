@@ -34,7 +34,7 @@ export function Navbar() {
         <Link href="/" className="group flex shrink-0 items-center">
           <img
             src="/images/surekit-wordmark-sage.png"
-            alt="Surekit"
+            alt="Surekit Sattva"
             className="h-10 w-auto opacity-95 transition-transform duration-300 group-hover:scale-[1.02] sm:h-12"
           />
         </Link>

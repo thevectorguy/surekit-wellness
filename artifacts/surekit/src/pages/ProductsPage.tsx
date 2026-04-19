@@ -13,6 +13,7 @@ import { toast } from "@/hooks/use-toast";
 import {
   allProducts,
   buildProductCatalog,
+  fallbackCatalogSourceWorkbook,
   type CrystalCatalogSeedEntry,
   type ProductCategory,
   type ProductCatalogResponse,
@@ -27,49 +28,112 @@ import { useEffect, useState } from "react";
 
 function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useShop();
+  const [isShowingDescription, setIsShowingDescription] = useState(false);
+  const productHeader = product.header.trim();
+  const productDescription = product.description.trim();
 
   return (
-    <article className="flex h-full flex-col rounded-[28px] border border-[#eadff7] bg-white p-5 shadow-[0_18px_48px_rgba(92,70,137,0.12)] transition-transform duration-300 hover:-translate-y-1">
-      <div className="mb-5 flex min-h-56 items-center justify-center rounded-[22px] bg-[#faf6ff] p-6">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="h-full max-h-44 w-full object-contain"
-        />
-      </div>
-
-      <div className="flex flex-1 flex-col">
-        <h3 className="font-serif text-[1.85rem] leading-none text-[#362352]">
-          {product.name}
-        </h3>
-        <p className="mt-4 flex-1 text-sm leading-7 text-[#655a79]">
-          {product.description}
-        </p>
-        <p className="mt-5 text-xl font-semibold text-[#362352]">
-          {product.priceLabel}
-        </p>
-      </div>
-
-      <Button
-        type="button"
-        className="mt-5 w-full rounded-full border-transparent bg-[#8f67d8] py-3 text-white hover:bg-[#7650bc] disabled:cursor-not-allowed disabled:bg-[#d7c9f1] disabled:text-[#6d617f]"
-        onClick={() => {
-          addToCart(product);
-          toast({
-            title: "Added to cart",
-            description: `${product.name} is now in your Sacred Crystal Boutique cart.`,
-          });
-        }}
+    <div className="h-full [perspective:1800px]">
+      <div
+        className={cn(
+          "relative h-full min-h-[32rem] transition-transform duration-700 [transform-style:preserve-3d]",
+          isShowingDescription && "[transform:rotateY(180deg)]",
+        )}
       >
-        Add to Cart
-      </Button>
-    </article>
+        <article className="absolute inset-0 flex h-full flex-col rounded-[28px] border border-[#eadff7] bg-white p-5 shadow-[0_18px_48px_rgba(92,70,137,0.12)] transition-transform duration-300 hover:-translate-y-1 [backface-visibility:hidden]">
+          <div className="mb-5 flex min-h-56 items-center justify-center rounded-[22px] bg-[#faf6ff] p-6">
+            <img
+              src={product.image}
+              alt={product.name}
+              className="h-full max-h-44 w-full object-contain"
+            />
+          </div>
+
+          <div className="flex flex-1 flex-col">
+            <h3 className="font-serif text-[1.85rem] leading-none text-[#362352]">
+              {product.name}
+            </h3>
+            {productHeader ? (
+              <p className="mt-4 text-sm leading-7 text-[#655a79]">
+                {productHeader}
+              </p>
+            ) : null}
+            <button
+              type="button"
+              className={cn(
+                "w-fit text-sm font-semibold text-[#8f67d8] transition-colors hover:text-[#7650bc]",
+                productHeader ? "mt-2" : "mt-4",
+              )}
+              onClick={() => setIsShowingDescription(true)}
+            >
+              Show more ⏵
+            </button>
+            <p className="mt-5 text-xl font-semibold text-[#362352]">
+              {product.priceLabel}
+            </p>
+          </div>
+
+          <Button
+            type="button"
+            className="mt-5 w-full rounded-full border-transparent bg-[#8f67d8] py-3 text-white hover:bg-[#7650bc] disabled:cursor-not-allowed disabled:bg-[#d7c9f1] disabled:text-[#6d617f]"
+            onClick={() => {
+              addToCart(product);
+              toast({
+                title: "Added to cart",
+                description: `${product.name} is now in your Sacred Crystal Boutique cart.`,
+              });
+            }}
+          >
+            Add to Cart
+          </Button>
+        </article>
+
+        <article className="absolute inset-0 flex h-full flex-col rounded-[28px] border border-[#eadff7] bg-[linear-gradient(180deg,#fcf8ff_0%,#ffffff_100%)] p-5 shadow-[0_18px_48px_rgba(92,70,137,0.12)] [backface-visibility:hidden] [transform:rotateY(180deg)]">
+          <div className="rounded-[22px] bg-[#faf6ff] px-5 py-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#8f67d8]">
+              Product Description
+            </p>
+            <h3 className="mt-3 font-serif text-[1.85rem] leading-none text-[#362352]">
+              {product.name}
+            </h3>
+          </div>
+
+          <div className="mt-5 flex-1 overflow-y-auto pr-1">
+            <p className="text-sm leading-7 text-[#655a79]">
+              {productDescription}
+            </p>
+          </div>
+
+          <button
+            type="button"
+            className="mt-5 w-full rounded-full border border-[#d8c7f4] bg-white px-5 py-3 text-sm font-semibold text-[#5f4c86] transition-colors hover:border-[#8f67d8] hover:text-[#8f67d8]"
+            onClick={() => setIsShowingDescription(false)}
+          >
+            Back to product
+          </button>
+
+          <Button
+            type="button"
+            className="mt-3 w-full rounded-full border-transparent bg-[#8f67d8] py-3 text-white hover:bg-[#7650bc] disabled:cursor-not-allowed disabled:bg-[#d7c9f1] disabled:text-[#6d617f]"
+            onClick={() => {
+              addToCart(product);
+              toast({
+                title: "Added to cart",
+                description: `${product.name} is now in your Sacred Crystal Boutique cart.`,
+              });
+            }}
+          >
+            Add to Cart
+          </Button>
+        </article>
+      </div>
+    </div>
   );
 }
 
 function ProductGrid({ products }: { products: Product[] }) {
   return (
-    <div className="grid grid-cols-1 gap-7 md:grid-cols-2 xl:grid-cols-4">
+    <div className="grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3">
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
@@ -150,22 +214,38 @@ async function fetchCatalogEntries() {
   return (await response.json()) as CrystalCatalogSeedEntry[];
 }
 
+function shouldUseLiveCatalog(entries: CrystalCatalogSeedEntry[]) {
+  if (entries.length === 0) {
+    return false;
+  }
+
+  if (!fallbackCatalogSourceWorkbook) {
+    return true;
+  }
+
+  return entries.every(
+    (entry) => entry.sourceWorkbook === fallbackCatalogSourceWorkbook,
+  );
+}
+
 export default function ProductsPage() {
   const { data } = useQuery({
     queryKey: ["shop-catalog"],
     queryFn: fetchCatalogEntries,
     retry: false,
   });
-  const liveCatalog = data ? buildProductCatalog(data) : null;
+  const liveCatalog =
+    data && shouldUseLiveCatalog(data) ? buildProductCatalog(data) : null;
   const catalog = liveCatalog ?? fallbackCatalog;
+  const orderedCategories = [...catalog.productCategories].reverse();
   const defaultViewId = getDefaultViewId(catalog);
   const [activeView, setActiveView] = useState(defaultViewId);
 
   useEffect(() => {
     const validViewIds = new Set([
       "view-all",
-      ...catalog.productCategories.map((category) => category.id),
-      ...catalog.productCategories.flatMap((category) =>
+      ...orderedCategories.map((category) => category.id),
+      ...orderedCategories.flatMap((category) =>
         category.sections.map((section) => section.id),
       ),
     ]);
@@ -173,9 +253,9 @@ export default function ProductsPage() {
     if (!validViewIds.has(activeView)) {
       setActiveView(defaultViewId);
     }
-  }, [activeView, catalog.productCategories, defaultViewId]);
+  }, [activeView, defaultViewId, orderedCategories]);
 
-  const activeCategory = catalog.productCategories.find((category) =>
+  const activeCategory = orderedCategories.find((category) =>
     isCategoryActive(category, activeView),
   );
   const activeSection =
@@ -205,7 +285,7 @@ export default function ProductsPage() {
             <div className="overflow-x-auto pb-4">
               <div className="flex w-max min-w-full justify-center">
                 <div className="flex h-auto min-w-max items-center gap-2 rounded-full border border-[#eadff7] bg-white/80 p-2 backdrop-blur">
-                  {catalog.productCategories.map((category) => {
+                  {orderedCategories.map((category) => {
                     const categoryActive = isCategoryActive(category, activeView);
 
                     if (category.sections.length <= 1) {

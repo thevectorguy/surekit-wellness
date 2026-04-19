@@ -36,7 +36,7 @@ export function Hero() {
               transition={{ delay: 0.3, duration: 1 }}
             >
               <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary text-sm font-medium tracking-wide mb-6 border border-primary/20">
-                Holistic Healing Therapy
+                Surekit Sattva
               </span>
             </motion.div>
 

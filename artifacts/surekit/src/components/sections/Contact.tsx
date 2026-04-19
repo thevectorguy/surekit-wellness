@@ -99,7 +99,7 @@ export function Contact() {
                 </div>
                 <div>
                   <h4 className="font-serif font-semibold text-xl mb-1 text-foreground">Email</h4>
-                  <p className="text-muted-foreground">surekitindia@gmail.com<br />We typically reply within 24 hours</p>
+                  <p className="text-muted-foreground">surekitsattva@gmail.com<br />We typically reply within 24 hours</p>
                 </div>
               </div>
             </div>

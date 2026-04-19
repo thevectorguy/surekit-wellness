@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 import { bookingLinkProps } from "@/lib/booking";
+import { cn } from "@/lib/utils";
 
 const heroHighlights = [
   { value: "30+", label: "Years in Learning & Development" },
@@ -39,7 +40,7 @@ const storySections = [
     layout: "centered",
     centerVisual: "none",
     body: [
-      "That realization became a turning point in my own journey. I was drawn inward, where I was initiated into Srividya, a sacred spiritual path rooted in the worship of the Divine Feminine and a deep exploration of consciousness.",
+      "That realization became a turning point in my own journey. I was drawn inward, where I was initiated into Srividya by my Guru Maa, a sacred spiritual path rooted in the worship of the Divine Feminine and a deep exploration of consciousness.",
       "More than a practice, Srividya became a way of life. It led me toward deeper awareness, inner balance, and a more expansive understanding of what true transformation asks of us.",
     ],
   },
@@ -188,7 +189,7 @@ function IntegrationCircle() {
           Ancient wisdom in a modern circle
         </h3>
         <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground sm:text-base">
-          A unified space for NLP, counselling, coaching, crystal healing,
+          A unified space for NLP, Counselling, Coaching, Crystal Healing,
           Prana Vidya, and numerology.
         </p>
       </div>
@@ -226,23 +227,23 @@ export function AboutStory() {
         <div className="absolute bottom-8 right-0 -z-10 h-80 w-80 rounded-full bg-secondary/20 blur-3xl" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 lg:pb-28">
-          <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
-            <motion.div
-              initial={{ opacity: 0, x: -32 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.9, ease: "easeOut" }}
-              className="max-w-3xl"
-            >
+	          <div className="grid items-center gap-14 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
+	            <motion.div
+	              initial={{ opacity: 0, x: -32 }}
+	              animate={{ opacity: 1, x: 0 }}
+	              transition={{ duration: 0.9, ease: "easeOut" }}
+	              className="max-w-4xl"
+	            >
               <p className="text-sm font-medium uppercase tracking-[0.34em] text-primary">
                 The Journey
               </p>
 
-              <h1 className="mt-6 text-balance text-5xl font-light leading-[0.95] text-foreground sm:text-6xl lg:text-7xl">
-                A story shaped by{" "}
-                <span className="italic text-primary">
-                  coaching, consciousness, and holistic healing
-                </span>
-              </h1>
+	              <h1 className="mt-6 text-balance text-3xl font-light leading-[1.04] text-foreground sm:text-4xl lg:text-5xl xl:text-[4.25rem]">
+	                A Journey of Transformation from{" "}
+	                <span className="italic text-primary">
+	                  Corporate HR, to Crystal Healing, Energy Alignment and NLP
+	                </span>
+	              </h1>
 
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-foreground/78 sm:text-xl">
                 My work began in the world of learning, coaching, and structured
@@ -319,8 +320,15 @@ export function AboutStory() {
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 className="overflow-hidden rounded-[2rem] border border-foreground/10 bg-white/55 p-6 shadow-[0_22px_70px_rgba(36,52,49,0.06)] backdrop-blur-sm sm:p-8 lg:p-10"
               >
-                <div className="grid gap-8 xl:grid-cols-[0.92fr_1.08fr] xl:items-center">
-                  <div className="order-2 xl:order-1">
+                <div
+                  className={cn(
+                    "grid gap-8",
+                    foundationInView
+                      ? "xl:grid-cols-[1.08fr_0.92fr] xl:items-center"
+                      : "xl:grid-cols-1"
+                  )}
+                >
+                  <div className="order-2 min-w-0 xl:order-1">
                     <p className="text-sm font-medium uppercase tracking-[0.32em] text-primary">
                       {foundationSection.eyebrow}
                     </p>
@@ -334,7 +342,12 @@ export function AboutStory() {
                     </div>
                   </div>
 
-                  <div className="order-1 xl:order-2">
+                  <div
+                    className={cn(
+                      "order-1",
+                      foundationInView ? "xl:order-2" : "hidden xl:block"
+                    )}
+                  >
                     {foundationInView ? (
                       <ImageMoment
                         layoutId={portraitLayoutId}

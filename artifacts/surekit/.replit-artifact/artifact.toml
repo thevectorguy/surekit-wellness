@@ -1,6 +1,6 @@
 kind = "web"
 previewPath = "/"
-title = "SureKit - Healing & Wellness"
+title = "SureKit Sattva - Healing & Wellness"
 version = "1.0.0"
 id = "artifacts/surekit"
 router = "path"

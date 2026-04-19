@@ -14,7 +14,7 @@ export function Footer() {
           <Link href="/" className="flex items-center gap-2 mb-4">
             <Sparkles className="w-6 h-6 text-primary" />
             <span className="font-serif text-2xl font-semibold tracking-wide">
-              SureKit
+              SureKit Sattva
             </span>
           </Link>
           <p className="text-background/70 font-serif italic text-lg max-w-sm mb-6">
@@ -52,7 +52,7 @@ export function Footer() {
             </a>
           </div>
           <p className="text-sm text-background/70">
-            hello@surekitwellness.com<br />
+            surekitsattva@gmail.com<br />
             Contact us for pricing and availability
           </p>
         </div>

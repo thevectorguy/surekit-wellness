@@ -10,6 +10,14 @@ import {
   loadCrystalCatalogSeedData,
 } from "./lib/crystal-catalog.js";
 
+function serializePriceAmount(value: number | null | undefined) {
+  if (value === null || value === undefined) {
+    return null;
+  }
+
+  return value.toString();
+}
+
 async function main() {
   if (!hasDatabaseUrl()) {
     throw new Error(
@@ -50,6 +58,8 @@ async function main() {
           name: entry.name,
           description: entry.description,
           rawLabel: entry.rawLabel,
+          priceAmount: serializePriceAmount(entry.priceAmount),
+          priceLabel: entry.priceLabel ?? null,
           sortOrder: entry.sortOrder,
           sourceWorkbook: entry.sourceWorkbook,
           sourceSheet: entry.sourceSheet,
@@ -60,7 +70,18 @@ async function main() {
     }
 
     await db.insert(crystalCatalogItemsTable).values({
-      ...entry,
+      slug: entry.slug,
+      collection: entry.collection,
+      section: entry.section,
+      subsection: entry.subsection,
+      name: entry.name,
+      description: entry.description,
+      rawLabel: entry.rawLabel,
+      priceAmount: serializePriceAmount(entry.priceAmount),
+      priceLabel: entry.priceLabel ?? null,
+      sortOrder: entry.sortOrder,
+      sourceWorkbook: entry.sourceWorkbook,
+      sourceSheet: entry.sourceSheet,
       isActive: true,
     });
   }
