@@ -58,8 +58,62 @@ export type ProductCatalogResponse = {
 
 const REMOTE_ORIGIN = "https://o-4724.vercel.app";
 const PLACEHOLDER_IMAGE = `${REMOTE_ORIGIN}/placeholder.svg`;
+const AMETHYST_BRACELET_IMAGE = "/images/unnamed.jpg";
+const MONEY_MAGNET_IMAGE = encodeURI("/images/unnamed (1).jpg");
+const TORTOISE_IMAGE = "/images/Gemini_Generated_Image_.png";
+const SHREE_YANTRA_IMAGE = encodeURI(
+  "/images/ChatGPT Image Apr 22, 2026, 03_39_55 PM.png",
+);
+const PENDANT_IMAGE = encodeURI(
+  "/images/ChatGPT Image Apr 22, 2026, 04_20_39 PM.png",
+);
+const HOOK_IMAGE = encodeURI(
+  "/images/ChatGPT Image Apr 22, 2026, 04_24_52 PM.png",
+);
+const GOLDEN_PYRITE_IMAGE = encodeURI(
+  "/images/ChatGPT Image Apr 22, 2026, 04_29_27 PM.png",
+);
+const PYRITE_IMAGE = encodeURI("/images/Gemini_Generated_Image_ (1).png");
+const AMETHYST_PRODUCT_SLUGS = new Set([
+  "luminous-collections-of-crystals-1-bracelets-amethyst",
+  "luminous-collections-of-crystals-3-japa-mala-amethyst",
+]);
+const AMETHYST_TOWER_PRODUCT_SLUGS = new Set([
+  "luminous-collections-of-crystals-3-towers-amethyst-2-3-4-5",
+]);
+const PENDANT_PRODUCT_SLUGS = new Set([
+  "amulets-b-pendants-pendant-with-rim-and-hook",
+]);
+const HOOK_PRODUCT_SLUGS = new Set([
+  "amulets-b-pendants-plain-with-hook",
+]);
+const GOLDEN_PYRITE_PRODUCT_SLUGS = new Set([
+  "raw-radiance-1-raw-stones-golden-pyrite",
+]);
+const MONEY_MAGNET_PRODUCT_SLUGS = new Set([
+  "high-vibration-pyramids-1-pyramids-money-magnet",
+  "high-vibration-pyramids-2-money-magnet-green-jade-pyramid-with-lakshmi-shreeyantra",
+  "high-vibration-pyramids-2-money-magnet-jibu-coins-pyrite",
+  "high-vibration-pyramids-2-money-magnet-tortoise-pyrite",
+  "luminous-collections-of-crystals-1-bracelets-money-magnet-bracelet",
+]);
+const TORTOISE_PRODUCT_SLUGS = new Set([
+  "high-vibration-pyramids-2-money-magnet-tortoise-pyrite",
+]);
+const SHREE_YANTRA_PRODUCT_SLUGS = new Set([
+  "high-vibration-pyramids-1-pyramids-pyrite-shree-yantra",
+]);
+const PYRITE_PRODUCT_SLUGS = new Set([
+  "high-vibration-pyramids-2-money-magnet-jibu-coins-pyrite",
+  "luminous-collections-of-crystals-1-bracelets-pyrite-bracelet",
+  "luminous-collections-of-crystals-2-tumbles-pyrite",
+  "luminous-collections-of-crystals-2-trees-pyrite",
+  "raw-radiance-1-raw-stones-golden-pyrite",
+  "raw-radiance-1-raw-stones-pyrite",
+]);
 const upload = (filename: string) =>
   `${REMOTE_ORIGIN}/lovable-uploads/${filename}`;
+const AMETHYST_TOWER_IMAGE = upload("1a9a30b1-9ac6-4174-9f44-c12a45fb941d.png");
 
 function legacyProduct(
   name: string,
@@ -177,6 +231,42 @@ function parsePriceAmount(value: number | string | null | undefined) {
   return Number.isFinite(parsed) ? parsed : null;
 }
 
+function shouldUseAmethystImage(entry: CrystalCatalogSeedEntry) {
+  return AMETHYST_PRODUCT_SLUGS.has(entry.slug);
+}
+
+function shouldUseAmethystTowerImage(entry: CrystalCatalogSeedEntry) {
+  return AMETHYST_TOWER_PRODUCT_SLUGS.has(entry.slug);
+}
+
+function shouldUsePendantImage(entry: CrystalCatalogSeedEntry) {
+  return PENDANT_PRODUCT_SLUGS.has(entry.slug);
+}
+
+function shouldUseHookImage(entry: CrystalCatalogSeedEntry) {
+  return HOOK_PRODUCT_SLUGS.has(entry.slug);
+}
+
+function shouldUseGoldenPyriteImage(entry: CrystalCatalogSeedEntry) {
+  return GOLDEN_PYRITE_PRODUCT_SLUGS.has(entry.slug);
+}
+
+function shouldUseMoneyMagnetImage(entry: CrystalCatalogSeedEntry) {
+  return MONEY_MAGNET_PRODUCT_SLUGS.has(entry.slug);
+}
+
+function shouldUseTortoiseImage(entry: CrystalCatalogSeedEntry) {
+  return TORTOISE_PRODUCT_SLUGS.has(entry.slug);
+}
+
+function shouldUseShreeYantraImage(entry: CrystalCatalogSeedEntry) {
+  return SHREE_YANTRA_PRODUCT_SLUGS.has(entry.slug);
+}
+
+function shouldUsePyriteImage(entry: CrystalCatalogSeedEntry) {
+  return PYRITE_PRODUCT_SLUGS.has(entry.slug);
+}
+
 function createResolvedPriceLabel(
   priceAmount: number | null,
   explicitLabel: string | null | undefined,
@@ -219,7 +309,18 @@ function buildProduct(entry: CrystalCatalogSeedEntry, categoryId: string, sectio
     entry.priceLabel,
   );
   const resolvedImage =
-    entry.image?.trim() || legacyProductMatch?.image || PLACEHOLDER_IMAGE;
+    entry.image?.trim() ||
+    (shouldUseTortoiseImage(entry) ? TORTOISE_IMAGE : null) ||
+    (shouldUseShreeYantraImage(entry) ? SHREE_YANTRA_IMAGE : null) ||
+    (shouldUseGoldenPyriteImage(entry) ? GOLDEN_PYRITE_IMAGE : null) ||
+    (shouldUsePyriteImage(entry) ? PYRITE_IMAGE : null) ||
+    (shouldUseMoneyMagnetImage(entry) ? MONEY_MAGNET_IMAGE : null) ||
+    (shouldUseAmethystTowerImage(entry) ? AMETHYST_TOWER_IMAGE : null) ||
+    (shouldUseHookImage(entry) ? HOOK_IMAGE : null) ||
+    (shouldUsePendantImage(entry) ? PENDANT_IMAGE : null) ||
+    (shouldUseAmethystImage(entry) ? AMETHYST_BRACELET_IMAGE : null) ||
+    legacyProductMatch?.image ||
+    PLACEHOLDER_IMAGE;
   const collectionLabel = prettifyHeading(entry.collection, "Collection");
   const { header } = parseRawLabel(entry.rawLabel || entry.name);
 
@@ -295,8 +396,6 @@ export function buildProductCatalog(
     label: category.label,
     sections: category.sections.map((section) => ({
       ...section,
-      note:
-        "Matching legacy images are preserved where available. Prices are shown when listed, and unpriced items remain available on request.",
     })),
   }));
   const allProducts = productCategories.flatMap((category) =>
